@@ -1,0 +1,72 @@
+{
+  "landing": {
+    "page_title": "Create and win your own Personal Merchandise!",
+    "page_description": " This week your chance to design your very own custom T-Shirt and win your own merchandise.",
+    "button_label": "Start my masterpiece",
+    "button_overview": "Get inspired",
+    "design_complete": "Your design is submitted",
+    "design_complete_button": "See my design"
+  },
+  "home": {
+    "button_label": "Home",
+    "button_label_submit": "Creatie indienen",
+    "onboarding_title1": "Beetpakken/slepen om te bewegen",
+    "onboarding_title2": "Tik op een illustratie om erin te tekenen",
+    "sticker_picker_title": "Selecteer een sticker",
+    "color_picker_title": "Verander kleur"
+  },
+  "customize": {
+    "button_label_confirm": "Bevestig"
+  },
+  "share": {
+    "page_subtitle": "Thank you for entering",
+    "page_title": "Wauw, dat ziet er mooi uit!",
+    "page_description": "Keep an eye on your email and our social media channels for updates on the contest results.",
+    "button_label": "Deel jouw creatie",
+    "button_label_copied": "Tekst gekopieerd",
+    "button_gallery": "Explore others",
+    "share_copy": "Bekijk mijn Summer of Skate creatie in de McDonald's app met code {{code}} en stem!"
+  },
+  "overview": {
+    "dropdown_label": "Sorteer op:",
+    "dropdown_option_date": "Datum",
+    "dropdown_option_votes": "Stemmen",
+    "page_title": "Galerij",
+    "page_description": "GalLorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac pretium est.erij",
+    "search_placeholder": "Zoek naar inzending",
+    "overview_title": "Inzendingen - week {{weekNr}}",
+    "votes_label": "Stemmen",
+    "button_back": "Terug",
+    "button_create": "Maak jouw eigen creatie",
+    "submission_label": "Inzending door",
+    "vote_label": "Stem",
+    "voted_label": "Gestemd"
+  },
+  "modal_anonymize": {
+    "title": "Do you want to play with",
+    "description": "Door te spelen ga ik ermee akkoord dat mijn naam (of alias) op het scorebord wordt weergegeven en dus aan alle andere deelnemers wordt getoond.",
+    "optin": "Anonymize",
+    "terms": "I accept the Terms and conditions",
+    "button": "Doorgaan"
+  },
+  "modal_confirm": {
+    "title": "Are you happy?",
+    "description": "Remember, you can only submit one design this week. Make sure it's your best work!",
+    "button_confirm": "Yes, submit my design!",
+    "button_close": "No, i’m not ready"
+  },
+  "general": {
+    "loading": "Did you know: In MyProximus you can measure and follow up your energy consumption at home?",
+    "hoodie": "hoodie",
+    "votes_one": "stem",
+    "votes_other": "stemmen",
+    "votes_left": "over",
+    "vote_countdown": "Volgende stem over",
+    "days_one": "dag",
+    "days_other": "dagen",
+    "hours_one": "uur",
+    "hours_other": "uur",
+    "minutes_one": "minuut",
+    "minutes_other": "minuten"
+  }
+}

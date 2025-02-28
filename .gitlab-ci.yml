@@ -1,0 +1,18 @@
+variables:
+  REPO_INCLUDES_REF: v0.1
+
+include:
+  - project: lwhq/livewall/infrastructure/gitlab-ci-lwg-collection
+    ref: v0.1
+    file: /cloudrun-generic/fepreview.gitlab-ci.yml
+
+stages:
+  - deploy
+
+deploy_fepreview:
+  only:
+    - /^fepreview\/.*$/
+  variables:
+    DOCKER_IMAGE_NAME: "grp4-preview"
+    USE_DOCKERFILE: Dockerfile
+    APP_PORT: 5173

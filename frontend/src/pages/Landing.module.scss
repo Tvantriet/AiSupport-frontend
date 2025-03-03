@@ -1,1 +1,57 @@
-.page {}
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.header {
+  background-color: #0090E3;
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+.startConversation {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.chatSection {
+  background-color: #ffffff;
+    border-radius: 4px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  
+  .chatQuestion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    
+    p {
+      font-size: 14px;
+      margin: 0;
+    }
+    
+    .closeButton {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #999;
+      
+      &:hover {
+        color: #666;
+      }
+    }
+  }
+}

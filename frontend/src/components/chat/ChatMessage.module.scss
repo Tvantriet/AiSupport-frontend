@@ -1,0 +1,31 @@
+.userMessageContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  
+  .userBubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    background-color: #0078d7;
+    color: white;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+}
+
+.botMessageContainer {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 12px;
+  
+  .botText {
+    max-width: 80%;
+    padding: 10px 0;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+} 

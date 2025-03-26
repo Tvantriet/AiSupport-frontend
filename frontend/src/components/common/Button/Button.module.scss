@@ -1,0 +1,180 @@
+// Base button styles
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.25);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Size variants
+.small {
+  font-size: 12px;
+  padding: 6px 12px;
+  height: 30px;
+}
+
+.medium {
+  font-size: 14px;
+  padding: 8px 16px;
+  height: 36px;
+}
+
+.large {
+  font-size: 16px;
+  padding: 10px 20px;
+  height: 42px;
+}
+
+// Color variants
+.primary {
+  background-color: #0078d7;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: darken(#0078d7, 10%);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: darken(#0078d7, 15%);
+  }
+}
+
+.secondary {
+  background-color: #f2f2f2;
+  color: #333;
+  
+  &:hover:not(:disabled) {
+    background-color: darken(#f2f2f2, 5%);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: darken(#f2f2f2, 10%);
+  }
+}
+
+.outline {
+  background-color: transparent;
+  color: #0078d7;
+  border: 1px solid #0078d7;
+  
+  &:hover:not(:disabled) {
+    background-color: rgba(0, 120, 215, 0.05);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: rgba(0, 120, 215, 0.1);
+  }
+}
+
+.text {
+  background-color: transparent;
+  color: #0078d7;
+  padding-left: 8px;
+  padding-right: 8px;
+  
+  &:hover:not(:disabled) {
+    background-color: rgba(0, 120, 215, 0.05);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: rgba(0, 120, 215, 0.1);
+  }
+}
+
+.danger {
+  background-color: #d9534f;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: darken(#d9534f, 10%);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: darken(#d9534f, 15%);
+  }
+}
+
+.success {
+  background-color: #5cb85c;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: darken(#5cb85c, 10%);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: darken(#5cb85c, 15%);
+  }
+}
+
+// Full width
+.fullWidth {
+  width: 100%;
+}
+
+// Icon positioning
+.iconLeft {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.iconRight {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+}
+
+// Loading state
+.loading {
+  color: transparent !important;
+  pointer-events: none;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: calc(50% - 8px);
+    left: calc(50% - 8px);
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Custom spinner when we need more control
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+} 

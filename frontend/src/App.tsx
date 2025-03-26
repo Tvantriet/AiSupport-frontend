@@ -3,6 +3,7 @@ import "./assets/styles/global.scss";
 
 import Layout from "./layouts/Layout";
 import Landing from "./pages/Landing";
+import WidgetShowcase from './pages/WidgetShowcase';
 
 import "./translations";
 
@@ -11,7 +12,8 @@ function App() {
     <>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Landing/>} />
+          <Route path="/fullscreen-chat" element={<Landing/>} />
+          <Route path="/" element={<WidgetShowcase />} />
         </Route>
       </Routes>
     </>

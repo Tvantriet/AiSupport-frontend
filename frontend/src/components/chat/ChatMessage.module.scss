@@ -6,8 +6,8 @@
   .userBubble {
     max-width: 80%;
     padding: 10px 14px;
-    background-color: #0078d7;
-    color: white;
+    background-color: #efefef;
+    color: black;
     border-radius: 18px;
     font-size: 14px;
     line-height: 1.4;
@@ -15,17 +15,91 @@
   }
 }
 
-.botMessageContainer {
+.assistantMessageContainer {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 12px;
   
-  .botText {
+  .assistantText {
     max-width: 80%;
     padding: 10px 0;
     color: #333;
     font-size: 14px;
     line-height: 1.4;
     word-wrap: break-word;
+  }
+}
+
+.markdown {
+  // Reset margins for common elements
+  p, h1, h2, h3, h4, h5, h6, ul, ol {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  // Style links
+  a {
+    color: #0078d7;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  // Style code blocks
+  code {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+  
+  pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 1em;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 0.5em 0;
+    
+    code {
+      background-color: transparent;
+      padding: 0;
+    }
+  }
+  
+  // Style lists
+  ul, ol {
+    padding-left: 1.5em;
+  }
+  
+  // Style tables
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.5em 0;
+    
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.5em;
+      text-align: left;
+    }
+    
+    th {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  // Style blockquotes
+  blockquote {
+    border-left: 3px solid #ddd;
+    margin: 0.5em 0;
+    padding-left: 1em;
+    color: #666;
   }
 } 

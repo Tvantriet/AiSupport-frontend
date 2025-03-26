@@ -1,0 +1,244 @@
+.sidebar {
+  background-color: #f5f7fa;
+  transition: transform 0.3s ease, width 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  
+  &.open {
+    transform: translateX(0);
+  }
+  
+  &.closed {
+    transform: translateX(-100%);
+  }
+  
+  .sidebarContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px 15px;
+    overflow-y: auto;
+  }
+  
+  .sidebarTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 20px 0;
+    padding: 0 10px;
+  }
+  
+  .productChatsSection {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    
+    .productGroup {
+      margin-bottom: 15px;
+      
+      .productHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+        
+        .productName {
+          font-size: 16px;
+          font-weight: 500;
+          color: #333;
+        }
+        
+        .addButton {
+          background: none;
+          border: none;
+          color: #333;
+          font-size: 16px;
+          cursor: pointer;
+          padding: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          
+          &:hover {
+            color: #0078d7;
+          }
+        }
+      }
+      
+      .conversationList {
+        list-style: none;
+        padding: 0 0 0 10px;
+        margin: 0;
+        
+        li {
+          margin-bottom: 5px;
+        }
+        
+        .conversationLink {
+          display: block;
+          padding: 8px 10px;
+          color: #333;
+          text-decoration: none;
+          border-radius: 4px;
+          transition: background-color 0.2s;
+          font-size: 14px;
+          
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+        }
+      }
+    }
+  }
+  
+  .newChatSection {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+    margin-bottom: 20px;
+    
+    .newChatTitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin: 0 0 15px 0;
+      padding: 0 10px;
+    }
+    
+    .searchInputContainer {
+      padding: 0 10px;
+      
+      .searchInput {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        font-size: 14px;
+        outline: none;
+        
+        &:focus {
+          border-color: #0078d7;
+          box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.2);
+        }
+        
+        &::placeholder {
+          color: #999;
+        }
+      }
+    }
+  }
+  
+  .bottomNav {
+    margin-top: auto;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+    
+    .bottomNavLink {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      color: #333;
+      text-decoration: none;
+      border-radius: 4px;
+      margin-bottom: 5px;
+      position: relative;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      
+      svg {
+        margin-right: 10px;
+        font-size: 16px;
+        color: #666;
+      }
+      
+      span {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  .closeButton {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    
+    &:hover {
+      color: #333;
+    }
+  }
+}
+
+.menuButton {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Media queries for responsive behavior */
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    
+    .closeButton {
+      display: block;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    width: 240px;
+    border-right: 1px solid #eee;
+  }
+} 

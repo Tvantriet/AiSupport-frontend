@@ -1,0 +1,246 @@
+.settingsOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.settingsPanel {
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  
+  h2 {
+    font-size: 24px;
+    margin: 0 0 8px 0;
+    font-weight: 500;
+  }
+  
+  p {
+    margin: 0 0 20px 0;
+    color: #666;
+  }
+  
+  .uploadSection {
+    margin-bottom: 30px;
+    
+    .uploadBox {
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      background-color: #f9f9f9;
+      
+      &:hover {
+        border-color: #aaa;
+      }
+      
+      img {
+        max-width: 100%;
+        max-height: 200px;
+      }
+      
+      .uploadIcon {
+        font-size: 32px;
+        color: #aaa;
+        margin-bottom: 10px;
+      }
+      
+      p {
+        margin: 5px 0;
+        color: #666;
+      }
+      
+      .smallText {
+        font-size: 14px;
+        color: #999;
+      }
+    }
+  }
+  
+  .settingsSection {
+    h3 {
+      font-size: 18px;
+      margin: 0 0 15px 0;
+      font-weight: 500;
+    }
+    
+    .formGroup {
+      margin-bottom: 15px;
+      
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333;
+      }
+      
+      input[type="text"] {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        
+        &:focus {
+          border-color: #0078d7;
+          outline: none;
+        }
+      }
+      
+      .colorInput {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        
+        input[type="color"] {
+          width: 40px;
+          height: 40px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        
+        input[type="text"] {
+          flex: 1;
+        }
+      }
+      
+      .productImageUpload {
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.2s;
+        background-color: #f9f9f9;
+        
+        &:hover {
+          border-color: #aaa;
+        }
+        
+        .productPreview {
+          max-width: 100%;
+          max-height: 120px;
+        }
+        
+        .uploadPlaceholder {
+          p {
+            margin: 5px 0;
+            color: #666;
+          }
+          
+          .smallText {
+            font-size: 14px;
+            color: #999;
+          }
+        }
+      }
+    }
+    
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .settingsPanel {
+    width: 95%;
+    padding: 15px;
+    
+    .settingsSection {
+      .formGroup {
+        .colorInput {
+          flex-direction: column;
+          align-items: flex-start;
+          
+          input[type="color"] {
+            width: 100%;
+            height: 40px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+  color: #666;
+  
+  &:hover {
+    color: #333;
+  }
+  
+  &.active {
+    color: #0078d7;
+    font-weight: 500;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #0078d7;
+    }
+  }
+}
+
+.applyButton {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #0078d7;
+  color: white;
+  border: none;
+  margin-right: 12px;
+  
+  &:hover {
+    background-color: #0063b1;
+  }
+}
+
+.closeButton {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  
+  &:hover {
+    background-color: #e0e0e0;
+  }
+} 

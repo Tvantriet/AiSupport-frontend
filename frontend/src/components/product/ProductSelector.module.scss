@@ -1,0 +1,211 @@
+.productSelector {
+  padding: 15px 10px 10px 10px; // Reduced padding slightly
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+  background-color: #f9f9f9; // Light background for the selector area
+
+  h4 {
+    text-align: center;
+    margin: 0 0 10px 0; // Adjusted margin
+    color: #333;
+    font-weight: 600; // Slightly bolder
+    font-size: 16px;
+  }
+
+  .searchBarWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .searchIcon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999; // Lighter icon
+      font-size: 15px;
+      pointer-events: none; // Icon shouldn't interfere with input focus
+    }
+
+    .searchInput {
+      flex-grow: 1; // Take available space
+      padding: 10px 35px 10px 40px; // Space for icons on both sides
+      border: 1px solid #ddd; // Lighter border
+      border-radius: 20px; // Rounded corners
+      font-size: 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      background-color: #fff;
+
+      &:focus {
+        outline: none;
+        border-color: #0078d7;
+        box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.2);
+      }
+    }
+
+    .clearButton {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 14px;
+      line-height: 1;
+
+      &:hover {
+        color: #555;
+      }
+    }
+  }
+
+  // Container for results and status messages
+  .resultsContainer {
+    flex-grow: 1; // Take remaining vertical space
+    overflow-y: auto; // Allow results to scroll
+    position: relative; // For absolute positioning of status messages if needed
+    padding: 5px 0; // Small padding top/bottom
+    max-height: calc(100% - 100px); /* Allow container to scroll */
+    scrollbar-width: thin;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  // Common style for status messages
+  .loadingState,
+  .errorState,
+  .noResultsState,
+  .initialState {
+    text-align: center;
+    color: #666;
+    padding: 20px 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .errorState {
+    color: #d9534f;
+  }
+
+  .resultsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; // Reduced gap
+
+    .resultItem {
+      margin: 0;
+      padding: 0;
+    }
+
+    .resultButton {
+      display: flex;
+      align-items: center;
+      gap: 12px; // Increased gap for better spacing
+      padding: 10px 12px; // Adjusted padding
+      border: none; // Remove default button border
+      background-color: #fff; // White background
+      border-radius: 6px; // Slightly rounded corners
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      border: 1px solid #eee; // Subtle border
+
+      &:hover {
+         background-color: #f0f0f0; // Light hover effect
+         border-color: #ddd;
+      }
+
+      &:focus {
+         outline: none;
+         box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.2); // Focus ring
+      }
+
+      .resultImage {
+        width: 35px; // Slightly smaller image
+        height: 35px;
+        object-fit: contain;
+        border-radius: 4px;
+        flex-shrink: 0;
+        background-color: #fff; // Ensure background is white if image is transparent
+      }
+
+      .resultName {
+        flex-grow: 1;
+        font-size: 14px;
+        color: #333;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 500; // Slightly bolder name
+      }
+    }
+  }
+  
+  /* New styles for infinite scroll */
+  .loadMoreTrigger {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    opacity: 0.8;
+  }
+}
+
+// Basic Spinner styles (replace with your actual spinner if available)
+.spinner {
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #666;
+  animation: spin 0.8s linear infinite;
+
+  &.small {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+  }
+  &.medium {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+  }
+  &.large {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+} 

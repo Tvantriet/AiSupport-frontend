@@ -1,15 +1,34 @@
-import styles from "./Button.module.scss";
+import React from 'react';
+import styles from './Button.module.scss';
 
-type Props = {
-  theme: 'primary' | 'link';
+type ButtonProps = {
   children: React.ReactNode;
-  className?: string;
   onClick?: () => void;
+  variant?: 'primary' | 'secondary' | 'outline' | 'text';
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+  className?: string;
+  type?: 'button' | 'submit' | 'reset';
 };
 
-const Button = ({ theme, children, className, onClick }: Props) => {
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
+  variant = 'primary',
+  size = 'medium',
+  disabled = false,
+  className = '',
+  type = 'button',
+  ...rest
+}) => {
   return (
-    <button type="button" className={`${styles.button} ${styles[theme]} ${className}`} onClick={onClick}>
+    <button
+      className={`${styles.button} ${styles[variant]} ${styles[size]} ${className}`}
+      onClick={onClick}
+      disabled={disabled}
+      type={type}
+      {...rest}
+    >
       {children}
     </button>
   );

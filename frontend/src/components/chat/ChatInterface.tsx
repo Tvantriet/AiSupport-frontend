@@ -17,6 +17,7 @@ interface ChatInterfaceProps {
   messages: ChatMessage[];
   followUpSuggestions: string[];
   initialSuggestions?: string[];
+  isLoading?: boolean;
   onSuggestionClick: (suggestion: string) => void;
   onReset: () => void;
 }
@@ -25,6 +26,7 @@ export const ChatInterface = ({
   product, 
   messages, 
   followUpSuggestions,
+  isLoading = false,
   initialSuggestions = [
     "What are the key features?",
     "Does it support MIDI?",
@@ -48,6 +50,8 @@ export const ChatInterface = ({
         messages={messages} 
         onSuggestionClick={onSuggestionClick}
         initialSuggestions={initialSuggestions}
+        followUpSuggestions={followUpSuggestions}
+        isLoading={isLoading}
         product={product}
       />
       

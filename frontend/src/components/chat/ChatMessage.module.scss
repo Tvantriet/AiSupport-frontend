@@ -12,6 +12,11 @@
     font-size: 14px;
     line-height: 1.4;
     word-wrap: break-word;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    cursor: text;
   }
 }
 
@@ -27,6 +32,11 @@
     font-size: 14px;
     line-height: 1.4;
     word-wrap: break-word;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    cursor: text;
   }
 }
 
@@ -102,4 +112,15 @@
     padding-left: 1em;
     color: #666;
   }
+}
+
+/* Add to your message styling */
+.message {
+  user-select: text;
+  cursor: text;
+}
+
+.userMessage, .assistantMessage {
+  user-select: text;
+  cursor: text;
 } 

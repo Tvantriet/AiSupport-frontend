@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
-import { FaArrowUp } from "react-icons/fa6";
-import styles from "./WidgetInput.module.scss";
+import { FC, useState, KeyboardEvent, ChangeEvent, useRef, useEffect } from 'react';
+import { FaPaperPlane } from 'react-icons/fa';
+import styles from './WidgetInput.module.scss';
 
 interface WidgetChatInputProps {
   onSendMessage: (text: string) => void;
@@ -8,77 +8,70 @@ interface WidgetChatInputProps {
   disabled?: boolean;
 }
 
-export const WidgetChatInput = ({ 
-  onSendMessage, 
+export const WidgetChatInput: FC<WidgetChatInputProps> = ({
+  onSendMessage,
   sendButtonColor,
   disabled = false
-}: WidgetChatInputProps) => {
-  const [inputValue, setInputValue] = useState('');
+}) => {
+  const [message, setMessage] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  // Custom style for send button
-  const sendButtonStyle = sendButtonColor ? { backgroundColor: sendButtonColor } : undefined;
-
-  // Auto-resize the textarea based on content
+  
+  // Auto-resize textarea as user types
   useEffect(() => {
     if (textareaRef.current) {
-      // Reset height to auto to get the correct scrollHeight
       textareaRef.current.style.height = 'auto';
-      
-      // Set the height to scrollHeight to expand the textarea
-      const scrollHeight = textareaRef.current.scrollHeight;
-      
-      // Set a maximum height (e.g., 100px) before adding scrollbar
-      const maxHeight = 100;
-      
-      textareaRef.current.style.height = 
-        scrollHeight > maxHeight 
-          ? `${maxHeight}px` 
-          : `${scrollHeight}px`;
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [inputValue]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (inputValue.trim()) {
-      onSendMessage(inputValue);
-      setInputValue('');
+  }, [message]);
+  
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    
+    if (message.trim() && !disabled) {
+      onSendMessage(message.trim());
+      setMessage('');
       
-      // Reset height after sending
+      // Reset textarea height
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
       }
     }
   };
-
-  // Handle Enter key to submit, but allow Shift+Enter for new lines
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e);
+      handleSubmit();
     }
   };
-
+  
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+  };
+  
+  // Custom button style based on prop
+  const buttonStyle = sendButtonColor ? { backgroundColor: sendButtonColor } : undefined;
+  
   return (
     <form className={styles.chatInputForm} onSubmit={handleSubmit}>
       <div className={styles.inputContainer}>
         <textarea
           ref={textareaRef}
           className={styles.inputTextarea}
-          placeholder="What do you need help with?"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={message}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
-          rows={1}
+          placeholder="Type your message..."
           disabled={disabled}
+          rows={1}
         />
-        <button
-          type="submit"
-          className={styles.sendButton}
-          style={sendButtonStyle}
-          disabled={!inputValue.trim() || disabled}
+        <button 
+          type="submit" 
+          disabled={!message.trim() || disabled}
+          style={buttonStyle}
+          aria-label="Send message"
         >
-          <FaArrowUp size={16} />
+          <FaPaperPlane />
         </button>
       </div>
     </form>

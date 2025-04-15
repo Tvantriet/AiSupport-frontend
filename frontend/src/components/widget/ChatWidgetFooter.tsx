@@ -1,8 +1,8 @@
 import { FC, ReactNode } from 'react';
-import { Button } from '../common/Button';
+import { Button } from '../ui/Button';
 import { WidgetChatInput } from './WidgetChatInput';
 import { SuggestionBubbles } from '../chat/SuggestionBubbles';
-import styles from './Widget.module.scss';
+import styles from './ChatWidget.module.scss';
 
 interface ChatWidgetFooterProps {
   customFooter?: ReactNode;
@@ -13,6 +13,7 @@ interface ChatWidgetFooterProps {
   footerClassName?: string;
   messagesExist: boolean;
   isLoading: boolean;
+  isLoadingFollowUps?: boolean;
   resetChat: () => void;
 }
 
@@ -25,6 +26,7 @@ export const ChatWidgetFooter: FC<ChatWidgetFooterProps> = ({
   footerClassName,
   messagesExist,
   isLoading,
+  isLoadingFollowUps = false,
   resetChat
 }) => {
   if (customFooter) {
@@ -39,12 +41,32 @@ export const ChatWidgetFooter: FC<ChatWidgetFooterProps> = ({
         disabled={isLoading}
       />
       
-      {followUpSuggestions.length > 0 && (
+      {followUpSuggestions.length > 0 && !isLoadingFollowUps && (
         <div className={styles.suggestionsWrapper}>
-          <SuggestionBubbles
-            suggestions={followUpSuggestions}
-            onSuggestionClick={handleSuggestionClick}
-          />
+          {typeof SuggestionBubbles !== 'undefined' ? (
+            <SuggestionBubbles
+              suggestions={followUpSuggestions}
+              onSuggestionClick={handleSuggestionClick}
+            />
+          ) : (
+            followUpSuggestions.map((suggestion, index) => (
+              <button
+                key={index}
+                onClick={() => handleSuggestionClick(suggestion)}
+                className={styles.suggestionButton}
+              >
+                {suggestion}
+              </button>
+            ))
+          )}
+        </div>
+      )}
+      
+      {isLoadingFollowUps && (
+        <div className={styles.suggestionsWrapper}>
+          <div className={styles.loadingFollowUps}>
+            Thinking of follow-up questions...
+          </div>
         </div>
       )}
       

@@ -1,34 +1,18 @@
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode, useState, useCallback } from 'react';
 import { useGlobalChat } from '../../context/ChatContext';
-import { ChatWidgetButton } from './WidgetButton';
-import { ChatWidgetHeader } from './WidgetHeader';
-import { ChatWidgetBody } from './WidgetBody';
-import { ChatWidgetFooter } from './WidgetFooter';
-import styles from './Widget.module.scss';
+import { ChatWidgetButton } from './ChatWidgetButton';
+import { ChatWidgetContent } from './ChatWidgetContent';
+import styles from './ChatWidget.module.scss';
 
-interface ChatWidgetProps {
-  // Product data
-  product?: {
-    name: string;
-    image: string;
-    reviews?: string;
-  };
-  
-  // Widget customization
+export interface ChatWidgetProps {
   initialOpen?: boolean;
   buttonText?: string;
   headerTitle?: string;
   emptyStateText?: string;
-  
-  // Initial suggestions
   initialSuggestions?: string[];
-  
-  // Custom components
   customHeader?: ReactNode;
   customFooter?: ReactNode;
   customEmptyState?: ReactNode;
-  
-  // Styling
   buttonClassName?: string;
   headerClassName?: string;
   bodyClassName?: string;
@@ -37,15 +21,12 @@ interface ChatWidgetProps {
   sendButtonColor?: string;
   userMessageColor?: string;
   userMessageTextColor?: string;
-  
-  // Callbacks
   onOpen?: () => void;
   onClose?: () => void;
   onReset?: () => void;
 }
 
 export const ChatWidget: FC<ChatWidgetProps> = ({ 
-  product,
   initialOpen = false,
   buttonText = "Chat with us",
   headerTitle = "Chat",
@@ -70,16 +51,11 @@ export const ChatWidget: FC<ChatWidgetProps> = ({
   onClose,
   onReset
 }) => {
+  const { sendMessage } = useGlobalChat();
   const [isOpen, setIsOpen] = useState(initialOpen);
   
   // Get chat state from context
-  const {
-    messages,
-    followUpSuggestions,
-    isLoading,
-    sendMessage,
-    resetChat
-  } = useGlobalChat();
+  const { resetChat } = useGlobalChat();
   
   const toggleWidget = () => {
     if (!isOpen && onOpen) {
@@ -98,9 +74,9 @@ export const ChatWidget: FC<ChatWidgetProps> = ({
     }
   };
   
-  const handleSuggestionClick = (suggestion: string) => {
+  const handleSuggestionClick = useCallback((suggestion: string) => {
     sendMessage(suggestion);
-  };
+  }, [sendMessage]);
 
   return (
     <div className={styles.widgetContainer}>
@@ -113,36 +89,23 @@ export const ChatWidget: FC<ChatWidgetProps> = ({
       
       {isOpen && (
         <div className={styles.widgetPanel}>
-          <ChatWidgetHeader
-            customHeader={customHeader}
-            headerTitle={headerTitle}
-            headerColor={headerColor}
-            toggleWidget={toggleWidget}
-            headerClassName={headerClassName}
-          />
-          
-          <ChatWidgetBody
-            messages={messages}
-            product={product}
+          <ChatWidgetContent
             emptyStateText={emptyStateText}
             initialSuggestions={initialSuggestions}
             customEmptyState={customEmptyState}
+            customHeader={customHeader}
+            customFooter={customFooter}
+            headerTitle={headerTitle}
+            headerColor={headerColor}
             bodyClassName={bodyClassName}
+            headerClassName={headerClassName}
+            footerClassName={footerClassName}
+            sendButtonColor={sendButtonColor}
             userMessageColor={userMessageColor}
             userMessageTextColor={userMessageTextColor}
             handleSuggestionClick={handleSuggestionClick}
-          />
-          
-          <ChatWidgetFooter
-            customFooter={customFooter}
-            handleSendMessage={sendMessage}
-            followUpSuggestions={followUpSuggestions}
-            handleSuggestionClick={handleSuggestionClick}
-            sendButtonColor={sendButtonColor}
-            footerClassName={footerClassName}
-            messagesExist={messages.length > 0}
-            isLoading={isLoading}
-            resetChat={handleReset}
+            handleReset={handleReset}
+            toggleWidget={toggleWidget}
           />
         </div>
       )}

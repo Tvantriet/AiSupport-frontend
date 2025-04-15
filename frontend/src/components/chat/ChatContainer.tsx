@@ -1,73 +1,100 @@
-import { useState, useEffect, useRef } from "react";
-import { ProductDetails } from "../product/ProductDetails";
-import { ChatMessage } from "./ChatMessage";
-import { SuggestionBubbles } from "./SuggestionBubbles";
-import styles from "./ChatContainer.module.scss";
+import React, { useRef, useEffect } from 'react';
+import { ChatMessage as ChatMessageType } from '../../types/chat';
+import { ChatMessage } from './ChatMessage';
+import { SuggestionBubbles } from './SuggestionBubbles';
+import { Product } from '../../types/product';
+import styles from './ChatContainer.module.scss';
 
 interface ChatContainerProps {
-  messages: Array<{text: string, sender: 'user' | 'assistant'}>;
-  initialSuggestions: string[];
+  messages: ChatMessageType[];
+  isLoading: boolean;
+  initialSuggestions?: string[];
   onSuggestionClick: (suggestion: string) => void;
-  product: {
-    name: string;
-    image: string;
-    reviews: string;
-  };
-  className?: string;
+  product?: Product | null; // Make this optional and only for context, don't display it
+  followUpSuggestions?: string[];
+  isLoadingFollowUps?: boolean;
 }
 
-export const ChatContainer = ({ 
-  messages, 
-  initialSuggestions,
+export const ChatContainer: React.FC<ChatContainerProps> = ({
+  messages,
+  isLoading,
+  initialSuggestions = [],
   onSuggestionClick,
-  product,
-  className 
-}: ChatContainerProps) => {
-  const [showSuggestions, setShowSuggestions] = useState(true);
+  product, // We'll only use this for context, not display
+  followUpSuggestions,
+  isLoadingFollowUps
+}) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  // Hide initial suggestions after first message
-  useEffect(() => {
-    if (messages.length > 0) {
-      setShowSuggestions(false);
-    }
-  }, [messages]);
-  
-  // Scroll to bottom when messages change
+  // Scroll to bottom when messages change or loading state changes
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   return (
-    <div className={`${styles.chatContainer} ${className || ''}`}>
-      <ProductDetails product={product} hasMessages={messages.length > 0} />
-      
+    <div className={styles.chatContainer}>
       <div className={styles.messagesContainer}>
         {messages.length === 0 ? (
-          showSuggestions && (
-            <div className={styles.initialSuggestions}>
-              <p className={styles.emptyStateText}>
-                Get started by asking a question about this product
-              </p>
-              <SuggestionBubbles 
-                suggestions={initialSuggestions} 
-                onSuggestionClick={onSuggestionClick} 
-              />
-            </div>
-          )
+          // Show empty state with suggestions
+          <div className={styles.emptyState}>
+            <p className={styles.emptyStateText}>
+              {product 
+                ? `Ask me anything about the ${product.name}!` 
+                : "Select a product to get started"}
+            </p>
+            
+            {initialSuggestions && initialSuggestions.length > 0 && (
+              <div className={styles.initialSuggestions}>
+                <SuggestionBubbles 
+                  suggestions={initialSuggestions}
+                  onSuggestionClick={onSuggestionClick}
+                />
+              </div>
+            )}
+          </div>
         ) : (
-          <div className={styles.messages}>
+          // Show messages
+          <>
             {messages.map((message, index) => (
               <ChatMessage 
-                key={index} 
-                text={message.text} 
-                sender={message.sender} 
+                key={index}
+                text={message.text}
+                sender={message.sender}
               />
             ))}
+            
+            {/* Enhanced typing indicator with three animated dots */}
+            {isLoading && (
+              <div className={styles.typingIndicator}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            )}
+            
+            {/* Invisible div for scrolling to the bottom */}
             <div ref={messagesEndRef} />
-          </div>
+            
+            {messages.length > 0 && (followUpSuggestions?.length || isLoadingFollowUps) && (
+              <div className={styles.followUpSuggestions}>
+                {isLoadingFollowUps ? (
+                  <div className={styles.loadingFollowUps}>
+                    Thinking of follow-up questions...
+                  </div>
+                ) : (
+                  <>
+                    <p className={styles.followUpHeading}>You might want to ask:</p>
+                    <SuggestionBubbles
+                      suggestions={followUpSuggestions || []}
+                      onSuggestionClick={onSuggestionClick}
+                    />
+                  </>
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

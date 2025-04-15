@@ -5,7 +5,9 @@ export interface ChatMessage {
 
 export interface ChatResponse {
   response: string;
-  suggestions?: string[];
+  followUpQuestions?: string[];
+  success: boolean;
+  message?: string;
 }
 
 export interface ChatHistoryItem {

@@ -1,26 +1,80 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-
-export interface ChatMessage {
-  text: string;
-  sender: 'user' | 'assistant';
-}
+import { sendChatMessage, getFollowUpQuestions } from '../api/chatService';
+import { ChatMessage, ChatHistoryItem } from '../types/chat';
 
 interface ChatOptions {
-  productName?: string;
+  productId?: string;
+  productName?: string; // Keep for backward compatibility
   onSend?: (message: string) => void;
   onError?: (error: Error) => void;
 }
 
-export function useChat({ productName = 'default', onSend, onError }: ChatOptions = {}) {
+export function useChat({ productId = '', productName = 'default', onSend, onError }: ChatOptions = {}) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [followUpSuggestions, setFollowUpSuggestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingFollowUps, setIsLoadingFollowUps] = useState(false);
   
   const resetChat = useCallback(() => {
     setMessages([]);
     setFollowUpSuggestions([]);
   }, []);
+  
+  // Fetch follow-up questions for the latest exchange
+  const fetchFollowUpQuestions = useCallback(async () => {
+    console.log("Attempting to fetch follow-up questions...");
+    if (messages.length < 2) {
+      console.log("Not enough messages to fetch follow-ups");
+      return;
+    }
+    
+    // Get the last user query and assistant response
+    const lastUserMessage = [...messages].reverse().find(m => m.sender === 'user');
+    const lastAssistantMessage = [...messages].reverse().find(m => m.sender === 'assistant');
+    
+    if (!lastUserMessage || !lastAssistantMessage) {
+      console.log("Missing user or assistant message");
+      return;
+    }
+    
+    console.log("Fetching follow-ups for:", {
+      userMessage: lastUserMessage.text,
+      assistantMessage: lastAssistantMessage.text
+    });
+    
+    // Format history excluding the last exchange
+    const historyWithoutLast = messages.slice(0, -2).map(msg => ({
+      content: msg.text,
+      role: msg.sender
+    }));
+    
+    setIsLoadingFollowUps(true);
+    
+    try {
+      const followUps = await getFollowUpQuestions(
+        lastUserMessage.text,
+        lastAssistantMessage.text,
+        historyWithoutLast,
+        productId // Send productId here instead of productName
+      );
+      
+      setFollowUpSuggestions(followUps);
+    } catch (error) {
+      console.error('Error fetching follow-up questions:', error);
+    } finally {
+      setIsLoadingFollowUps(false);
+    }
+  }, [messages, productId]); // Update dependency to productId
+  
+  // Trigger follow-up questions fetch when a new assistant message is added
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    console.log("Last message changed:", lastMessage);
+    if (lastMessage?.sender === 'assistant') {
+      console.log("Triggering follow-up question fetch");
+      fetchFollowUpQuestions();
+    }
+  }, [messages, fetchFollowUpQuestions]);
   
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim()) return;
@@ -38,29 +92,27 @@ export function useChat({ productName = 'default', onSend, onError }: ChatOption
     
     try {
       // Format history for API
-      const formattedHistory = messages.map(msg => ({
+      const formattedHistory: ChatHistoryItem[] = messages.map(msg => ({
         content: msg.text,
         role: msg.sender
       }));
       
-      // Call API
-      const response = await axios.post('http://localhost:3000/api/chat/process', {
-        query: text,
-        productName,
-        conversationHistory: formattedHistory
-      });
+      // Call API using the service - now with productId instead of productName
+      const response = await sendChatMessage(
+        text, 
+        productId, // Send productId as primary identifier
+        formattedHistory,
+        productName // Still send productName as fallback for backward compatibility
+      );
       
-      if (response.data && response.data.response) {
+      if (response.success && response.response) {
         // Add assistant response
         setMessages(prev => [...prev, {
-          text: response.data.response,
+          text: response.response,
           sender: 'assistant'
         }]);
-        
-        // Set follow-up suggestions if available
-        if (response.data.suggestions && response.data.suggestions.length > 0) {
-          setFollowUpSuggestions(response.data.suggestions);
-        }
+      } else {
+        throw new Error(response.message || 'Failed to get response');
       }
     } catch (error) {
       console.error('Error sending message:', error);
@@ -73,13 +125,15 @@ export function useChat({ productName = 'default', onSend, onError }: ChatOption
     } finally {
       setIsLoading(false);
     }
-  }, [messages, onSend, onError, productName]);
+  }, [messages, onSend, onError, productId, productName]);
   
   return {
     messages,
     followUpSuggestions,
     isLoading,
+    isLoadingFollowUps,
     sendMessage,
-    resetChat
+    resetChat,
+    generateFollowUps: fetchFollowUpQuestions
   };
 } 

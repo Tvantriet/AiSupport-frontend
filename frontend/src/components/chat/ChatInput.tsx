@@ -4,9 +4,10 @@ import styles from "./ChatInput.module.scss";
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
+  disabled?: boolean;
 }
 
-export const ChatInput = ({ onSendMessage }: ChatInputProps) => {
+export const ChatInput = ({ onSendMessage, disabled = false }: ChatInputProps) => {
   const [inputValue, setInputValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -31,7 +32,7 @@ export const ChatInput = ({ onSendMessage }: ChatInputProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputValue.trim()) {
+    if (inputValue.trim() && !disabled) {
       onSendMessage(inputValue);
       setInputValue('');
       
@@ -44,7 +45,7 @@ export const ChatInput = ({ onSendMessage }: ChatInputProps) => {
 
   // Handle Enter key to submit, but allow Shift+Enter for new lines
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !disabled) {
       e.preventDefault();
       handleSubmit(e);
     }
@@ -53,7 +54,7 @@ export const ChatInput = ({ onSendMessage }: ChatInputProps) => {
   return (
     <form onSubmit={handleSubmit} className={styles.chatInputForm}>
       <div className={styles.inputContainer}>
-        <textarea 
+        <textarea
           ref={textareaRef}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -61,8 +62,13 @@ export const ChatInput = ({ onSendMessage }: ChatInputProps) => {
           placeholder="What do you need help with?" 
           rows={1}
           className={styles.inputTextarea}
+          disabled={disabled}
         />
-        <button type="submit" className={styles.sendButton}>
+        <button 
+          type="submit" 
+          className={styles.sendButton}
+          disabled={!inputValue.trim() || disabled}
+        >
           <FaArrowUp size={16} />
         </button>
       </div>
